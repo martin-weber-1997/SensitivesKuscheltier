@@ -13,6 +13,8 @@ from SensitivesKuscheltier.adxl345 import ADXL345
 
 
 
+
+
 # LED 3 beliebige GPIOS
 LED1 = 11
 LED2 = 13
@@ -48,7 +50,6 @@ class AdxlValues(Thread):
         # Werte muessen noch probiert werden welche Richtig sind
         grenze = 0.2
         grenze2 = 1
-        grenze3 = 2
         while True:
             if (self.values['x'] > grenze or self.values['y'] > grenze or self.values['z'] > grenze):
                 # Sound abspielen
@@ -56,9 +57,6 @@ class AdxlValues(Thread):
             elif (self.values['x'] > grenze2 or self.values['y'] > grenze2 or self.values['z'] > grenze2):
                 # Anderen Sound abspielen
                 playSounds('stop')
-            elif (self.values['x'] > grenze3 or self.values['y'] > grenze3 or self.values['z'] > grenze3):
-                # Anderen Sound abspielen
-                playSounds('schrei')
 
 
 class NFCReader(Thread):
