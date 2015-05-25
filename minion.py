@@ -10,10 +10,11 @@ from SensitivesKuscheltier.adxl345 import ADXL345
 
 
 
+
+
 # LED 3 beliebige GPIOS
 LED1 = 11
 LED2 = 13
-LED3 = 15
 
 
 # Helligkeitssensor 1 beliebiger GPIO Pin
@@ -48,11 +49,14 @@ class AdxlValues(Thread):
         grenze3 = 2
         while True:
             if (self.values['x'] > grenze or self.values['y'] > grenze or self.values['z'] > grenze):
-            #Sound abspielen
+                # Sound abspielen
+                playSounds('lachen')
             elif (self.values['x'] > grenze2 or self.values['y'] > grenze2 or self.values['z'] > grenze2):
                 #Anderen Sound abspielen
-                elif (self.values['x'] > grenze3 or self.values['y'] > grenze3 or self.values['z'] > grenze3):
+                playSounds('stop')
+            elif (self.values['x'] > grenze3 or self.values['y'] > grenze3 or self.values['z'] > grenze3):
                 #Anderen Sound abspielen
+                playSounds('schrei')
 
 
 class NFCReader(Thread):
@@ -82,10 +86,17 @@ class BrightnessValues(Thread):
 
 class LED(object):
     def __init__(self):
+        self.r = 0
+        self.g = 0
+        self.b = 0
+
+    def setColour(self):
 
 
-    def playSounds(self, sound):
+# Farbe mit PWM setzen
 
+
+def playSounds(self, sound):
     #Sound aufrufen
 
 
@@ -93,6 +104,4 @@ class LED(object):
         GPIO.setup(PIR, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(LED1, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(LED2, GPIO.OUT, initial=GPIO.LOW)
-        GPIO.setup(LED3, GPIO.OUT, initial=GPIO.LOW)
 
-        sounds = Sounds()
