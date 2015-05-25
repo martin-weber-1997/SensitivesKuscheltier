@@ -12,9 +12,11 @@ from SensitivesKuscheltier.adxl345 import ADXL345
 
 
 
+
 # LED 3 beliebige GPIOS
 LED1 = 11
 LED2 = 13
+LED3 = 15
 
 
 # Helligkeitssensor 1 beliebiger GPIO Pin
@@ -52,10 +54,10 @@ class AdxlValues(Thread):
                 # Sound abspielen
                 playSounds('lachen')
             elif (self.values['x'] > grenze2 or self.values['y'] > grenze2 or self.values['z'] > grenze2):
-                #Anderen Sound abspielen
+                # Anderen Sound abspielen
                 playSounds('stop')
             elif (self.values['x'] > grenze3 or self.values['y'] > grenze3 or self.values['z'] > grenze3):
-                #Anderen Sound abspielen
+                # Anderen Sound abspielen
                 playSounds('schrei')
 
 
@@ -69,14 +71,16 @@ class Buttons(Thread):
         Thread.__init__(self)
 
 
-    def detectMovement(channel):
-        if GPIO.input(PIR) == GPIO.HIGH:
-            # Sound abspielen
-            # Augen ändern?
-            sleep(20)
+def detectMovement(channel):
+    if GPIO.input(PIR) == GPIO.HIGH:
+        # Sound abspielen
+        # Augen ändern?
+        sleep(20)
 
     # Kommt noch in Methode ruft detectMovement auf falls Bewegungssensor ausschlaegt
-    GPIO.add_event_detect(PIR, GPIO.HIGH, callback=detectMovement(), bouncetime=1000)
+
+
+GPIO.add_event_detect(PIR, GPIO.HIGH, callback=detectMovement(), bouncetime=1000)
 
 
 class BrightnessValues(Thread):
@@ -97,11 +101,12 @@ class LED(object):
 
 
 def playSounds(self, sound):
-    #Sound aufrufen
+    # Sound aufrufen
 
 
     def init():
         GPIO.setup(PIR, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(LED1, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(LED2, GPIO.OUT, initial=GPIO.LOW)
+        GPIO.setup(LED3, GPIO.OUT, initial=GPIO.LOW)
 
