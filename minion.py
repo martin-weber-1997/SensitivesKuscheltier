@@ -15,6 +15,8 @@ from SensitivesKuscheltier.adxl345 import ADXL345
 
 
 
+
+
 # LED 3 beliebige GPIOS
 LED1 = 11
 LED2 = 13
@@ -43,18 +45,19 @@ class AdxlValues(Thread):
     def _init_self(self):
         Thread.__init__(self)
         self.adxl = ADXL345()
-        self.values = self.adxl.getAxes(True)
+        self.x ,self.y,self.z = self.adxl.getAxes(True)['x'],self.adxl.getAxes(True)['y'],self.adxl.getAxes(True)['z']
         self.checkValues()
 
     def checkValues(self):
         # Werte muessen noch probiert werden welche Richtig sind
         grenze = 0.2
         grenze2 = 1
+        self.x ,self.y,self.z = self.adxl.getAxes(True)['x'],self.adxl.getAxes(True)['y'],self.adxl.getAxes(True)['z']
         while True:
-            if (self.values['x'] > grenze or self.values['y'] > grenze or self.values['z'] > grenze):
+            if (self.x > grenze or self.y > grenze or self.z > grenze):
                 # Sound abspielen
                 playSounds('lachen')
-            elif (self.values['x'] > grenze2 or self.values['y'] > grenze2 or self.values['z'] > grenze2):
+            elif (self.x > grenze2 or self.y > grenze2 or self.z > grenze2):
                 # Anderen Sound abspielen
                 playSounds('stop')
 
