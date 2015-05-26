@@ -54,6 +54,7 @@ class NFCReader(object):
 
     def run(self):
         """Starts the looping thread"""
+        tmp = ""
         self.__context = ctypes.pointer(nfc.nfc_context())
         nfc.nfc_init(ctypes.byref(self.__context))
         loop = True
@@ -65,10 +66,15 @@ class NFCReader(object):
                 self.__device = nfc.nfc_open(self.__context, conn_strings[0])
                 try:
                     _ = nfc.nfc_initiator_init(self.__device)
-                    while True:
-                        self._poll_loop()
+                    t = (time.time()*1000)
+                    while t > (time.time()*1000-5000) and not tmp:
+                        tmp = self._poll_loop()
+                        #print "RunMethode"+tmp
+                        if(not tmp):
+                            break
                 finally:
                     nfc.nfc_close(self.__device)
+
             else:
                 self.log("NFC Waiting for device.")
                 time.sleep(5)
@@ -83,7 +89,7 @@ class NFCReader(object):
         finally:
             nfc.nfc_exit(self.__context)
             self.log("NFC Clean shutdown called")
-        return loop
+        return tmp
 
     @staticmethod
     def _sanitize(bytesin):
@@ -104,20 +110,22 @@ class NFCReader(object):
         if res < 0:
             raise IOError("NFC Error whilst polling")
         elif res >= 1:
-            uid = None
+
             if nt.nti.nai.szUidLen == 4:
                 uid = "".join([chr(nt.nti.nai.abtUid[i]) for i in range(4)])
             if uid:
                 if not ((self._card_uid and self._card_present and uid == self._card_uid) and \
                                     time.mktime(time.gmtime()) <= self._card_last_seen + self.card_timeout):
                     self._setup_device()
-                    self.read_card(uid)
+                    idtmp = ""+self.read_card(uid)
             self._card_uid = uid
             self._card_present = True
             self._card_last_seen = time.mktime(time.gmtime())
         else:
             self._card_present = False
             self._clean_card()
+        #print "pollMethode"+idtmp
+        return idtmp
 
     def _clean_card(self):
         self._card_uid = None
@@ -218,13 +226,15 @@ class NFCReader(object):
     def read_card(self, uid):
         """Takes a uid, reads the card and return data for use in writing the card"""
         key = "\xff\xff\xff\xff\xff\xff"
-        print "Reading card", uid.encode("hex")
+        #print "Reading card", uid.encode("hex")
         self._card_uid = self.select_card()
         self._authenticate(0x00, uid, key)
         block = 0
-        for block in range(64):
-            data = self.auth_and_read(block, uid, key)
-            print block, data.encode("hex"), "".join([ x if x in string.printable else "." for x in data])
+        #for block in range(64):
+        #    data = self.auth_and_read(block, uid, key)
+        #    print block, data.encode("hex"), "".join([ x if x in string.printable else "." for x in data])
+        #print "read"+uid.encode("hex")
+        return uid.encode("hex")
 
     def write_card(self, uid, data):
         """Accepts data of the recently read card with UID uid, and writes any changes necessary to it"""
