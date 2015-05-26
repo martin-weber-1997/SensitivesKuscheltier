@@ -23,8 +23,6 @@ LED2 = 13
 LED3 = 15
 
 
-# Helligkeitssensor 1 beliebiger GPIO Pin
-BRIGHTNESS = 16
 
 # Taster linke Hand
 LH = 18
@@ -32,9 +30,11 @@ LH = 18
 # Taster rechte Hand
 RH = 22
 
-# Helligkeitssensor
+# Begegungssensor
 PIR = 36
 
+#Temperatursensor
+TMP = 7
 
 class TemperatureValues(Thread):
     def __init__(self):
@@ -75,12 +75,9 @@ class Buttons(Thread):
 def detectMovement(channel):
     if GPIO.input(PIR) == GPIO.HIGH:
         # Sound abspielen
-        # Augen ändern?
         sleep(20)
 
-    # Kommt noch in Methode ruft detectMovement auf falls Bewegungssensor ausschlaegt
-
-
+# Kommt noch in Methode ruft detectMovement auf falls Bewegungssensor ausschlaegt
 GPIO.add_event_detect(PIR, GPIO.HIGH, callback=detectMovement(), bouncetime=1000)
 
 
