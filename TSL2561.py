@@ -2,7 +2,6 @@
 # Code sourced from AdaFruit discussion board: https://www.adafruit.com/forums/viewtopic.php?f=8&t=34922
 
 
-import sys
 # Not needed here. Thanks to https://github.com/mackstann for highlighting this.
 #import smbus
 import time
