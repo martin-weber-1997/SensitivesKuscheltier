@@ -269,6 +269,8 @@ def button_pressed(channel):
         print"Herrunterfahren"
 
     if MODE.mode == 1:
+        playSounds("Popo")
+        sleep(1)
         #stop Brightness
         BRIGHT.stopped = True
         #Infrarot Sensor
@@ -276,6 +278,8 @@ def button_pressed(channel):
         print"Infrarot"
 
     elif MODE.mode == 2:
+        playSounds("Popo")
+        sleep(1)
         #LOG.info("Schalte in Modus " + str(MODE.mode) + "LP: " + str(MODE.long_pressed))
         # stop Infrarot
         IFR.stopped = True
@@ -284,6 +288,8 @@ def button_pressed(channel):
         print"ADXL"
 
     elif MODE.mode == 3:
+        playSounds("Popo")
+        sleep(1)
         #LOG.info("Schalte in Modus " + str(MODE.mode) + "LP: " + str(MODE.long_pressed))
         # stop ADXL
         ADXL.stopped = True
@@ -291,21 +297,26 @@ def button_pressed(channel):
         READER.stopped = False
         print"NFC"
     elif MODE.mode == 4:
+        playSounds("Popo")
+        sleep(1)
         #Stop NFC
         READER.stopped = True
         #Start brightness
         BRIGHT.stopped = False
         print"Bright"
     elif MODE.mode == 5:
+        playSounds("Popo")
+        sleep(1)
         #stop Bright
         BRIGHT.stopped=True
         #start Temp
         TEMP.stopped=False
         print"temp"
     elif MODE.mode == 0:
+        playSounds("Popo")
+        sleep(1)
         TEMP.stopped=True
         setLeds(100,100,100)
-
         print"leerlauf"
 
 def setLeds(r,g,b):
