@@ -69,7 +69,6 @@ class NFCReader(object):
                     t = (time.time()*1000)
                     while t > (time.time()*1000-5000) and not tmp:
                         tmp = self._poll_loop()
-                        #print "RunMethode"+tmp
                         if(not tmp):
                             break
                 finally:
@@ -117,7 +116,7 @@ class NFCReader(object):
                 if not ((self._card_uid and self._card_present and uid == self._card_uid) and \
                                     time.mktime(time.gmtime()) <= self._card_last_seen + self.card_timeout):
                     self._setup_device()
-                    idtmp = ""+self.read_card(uid)
+                    idtmp = self.read_card(uid)
             self._card_uid = uid
             self._card_present = True
             self._card_last_seen = time.mktime(time.gmtime())
